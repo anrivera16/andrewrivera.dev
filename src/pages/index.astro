@@ -4,9 +4,13 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 // import { Link } from "../lib/Link";
 import { Paragraph } from "../lib/prose/Paragraph";
 import type { PostFrontmatter } from "../types";
-
+import ProfilePicture from "../layouts/ProfilePicture.astro";
+import profilePic from  "../../public/profile.jpg";
+import {getProjects} from "../lib/project";
+import Project from "../components/Project.astro"
 let posts = await Astro.glob<PostFrontmatter>("../../posts/**/*.mdx");
 
+const projects = await getProjects()
 if (import.meta.env.PROD) {
   posts = posts.filter((post) => !post.frontmatter.draft);
 }
@@ -25,22 +29,48 @@ posts.sort((a, b) => {
 >
   <h1 slot="header-content" class="text-gray-600 dark:text-gray-500">andrew-rivera</h1>
   <main class="py-10 zaduma-prose">
+    <ProfilePicture
+        mobileImgUrl={profilePic}
+        desktopImgUrl={profilePic}
+        alt="user profile picture"
+    />
     <Paragraph>
-      <!-- <small class="text-gray-600 dark:text-gray-500"
-        >IPA /zaˈdu.ma/ — reverie, musing</small
-      > -->
-      <br />
-       Hi! I am a full-stack developer based in St.Louis, MO. 
+       Hi! I am a full-stack software developer based in St.Louis, MO. I currently building and maintaining enterprise
+      applications in the GovTech world.
     </Paragraph>
-    <!-- <Paragraph class="mt-6">
-      Learn about it by reading the articles below, take a look at the
-      <Link href="https://github.com/hasparus/zaduma">readme</Link>, or boldly
-      <Link href="https://github.com/hasparus/zaduma/generate">
-        {"create a new repository"}
-      </Link>. I wish you a pleasant journey.
-    </Paragraph> -->
+    <h1 class="text-2xl">
+      Skills
+    </h1>
+    .NET - Core - MVC
+    <div class="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700" style="width: 50%">
+      <div class="dark:bg-white h-2.5 rounded-full" style="width: 90%"></div>
+    </div>
+    Angular - TypeScript - JavaScript
+    <div class="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700" style="width: 50%">
+      <div class="dark:bg-white h-2.5 rounded-full" style="width: 90%"></div>
+    </div>
+    Entity Framework
+    <div class="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700"  style="width: 50%">
+      <div class="dark:bg-white h-2.5 rounded-full" style="width: 70%"></div>
+    </div>
+    SQL
+    <div class="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700" style="width: 50%">
+      <div class="dark:bg-white h-2.5 rounded-full" style="width: 50%"></div>
+    </div>
+    Python
+    <div class="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700" style="width: 50%">
+      <div class="dark:bg-white h-2.5 rounded-full" style="width: 50%"></div>
+    </div>
+    HTML - CSS
+    <div class="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700" style="width: 50%">
+      <div class="dark:bg-white h-2.5 rounded-full" style="width: 50%"></div>
+    </div>
   </main>
-  <h1>blog</h1>
+  <h1 class="text-2xl">Projects</h1>
+  <div class="grid grid-cols-2 gap-4 md:grid-cols-3">
+    {projects.map(project => <Project {project} />)}
+  </div>
+  <!--<h1>blog</h1>-->
   <!-- <ul>
     {
       posts.map(({ frontmatter }) => {
@@ -75,6 +105,5 @@ posts.sort((a, b) => {
         @apply text-gray-500;
       }
     }
-  
   </style>
 </BaseLayout>
